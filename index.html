@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
+</head>
+<body>
+
+    <script>
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 200 }
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+    var line;
+    var cusor;
+    var graphics;
+    var direction = 2;
+    var normalAngle = 0;
+
+    function preload ()
+    {
+        this.load.image('grid', '/grid.png');
+        this.load.image('grid2', '/grid2.png');
+
+    }
+
+    function create ()
+    {
+        //this.add.image(35, 35, 'grid');
+
+        //this.add.tileSprite(400, 300, 800, 600, 'grid');
+        this.add.tileSprite(400, 300, 800, 600, 'grid2');
+
+         line = new Phaser.Geom.Line(100, 100, 200, 100);
+
+         graphics = this.add.graphics({ lineStyle: { width: 4, color: 0xFFA500 } });
+
+
+        graphics.strokeLineShape(line);    
+
+        // Keys
+        cursors = this.input.keyboard.createCursorKeys();
+
+         
+    }
+
+    function update() {
+
+       
+        if (cursors.down.isDown) {
+            console.log("Key Down");
+            if(direction == 2 || direction == 4)
+            {
+                direction = 3;
+                normalAngle = 1.571;
+                
+            }
+         }
+         else if (cursors.right.isDown) {
+            if(direction == 1 || direction == 3)
+            {
+                direction = 2;
+                normalAngle = 0;
+                
+            }
+        }
+        else if (cursors.left.isDown) {
+            if(direction == 1 || direction == 3)
+            {
+                direction = 2;
+                normalAngle = 3.142;
+                
+            }
+        }
+        else if (cursors.up.isDown) {
+            if(direction == 2 || direction == 4)
+            {
+                direction = 1;
+                normalAngle = -1.571;
+                
+            }
+        }
+
+        Phaser.Geom.Line.SetToAngle(line, line.x2, line.y2, normalAngle, 5);
+        graphics.strokeLineShape(line);
+    }
+
+    </script>
+
+</body>
+</html>
