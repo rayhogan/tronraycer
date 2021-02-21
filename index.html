@@ -8,8 +8,8 @@
     <script>
     var config = {
         type: Phaser.AUTO,
-        width: 800,
-        height: 600,
+        width: 2000,
+        height: 2000,
         physics: {
             default: 'arcade',
             arcade: {
@@ -27,7 +27,7 @@
     var line;
     var cusor;
     var graphics;
-    var direction = 2;
+    var direction = 4;
     var normalAngle = 0;
 
     function preload ()
@@ -39,21 +39,19 @@
 
     function create ()
     {
-        //this.add.image(35, 35, 'grid');
 
-        //this.add.tileSprite(400, 300, 800, 600, 'grid');
-        this.add.tileSprite(400, 300, 800, 600, 'grid2');
+
+        this.add.tileSprite(1000, 1000, 2000, 2000, 'grid2');
 
          line = new Phaser.Geom.Line(100, 100, 200, 100);
 
+         this.cameras.main.setBounds(0, 0, 2000, 2000);
+         this.cameras.main.setViewport(0, 0, 800, 600);
+
+
          graphics = this.add.graphics({ lineStyle: { width: 4, color: 0xFFA500 } });
 
-
-        graphics.strokeLineShape(line);    
-
-        // Keys
-        cursors = this.input.keyboard.createCursorKeys();
-
+         cursors = this.input.keyboard.createCursorKeys();
          
     }
 
@@ -67,12 +65,13 @@
                 direction = 3;
                 normalAngle = 1.571;
                 
+                
             }
          }
          else if (cursors.right.isDown) {
             if(direction == 1 || direction == 3)
             {
-                direction = 2;
+                direction = 4;
                 normalAngle = 0;
                 
             }
@@ -92,6 +91,23 @@
                 normalAngle = -1.571;
                 
             }
+        }
+        const cameraSpeed = 5;
+        if(direction == 1) // Going Up
+        {
+            this.cameras.main.scrollY -= cameraSpeed;
+        }
+        else if(direction == 2) // Going Left
+        {
+            this.cameras.main.scrollX -= cameraSpeed;
+        }
+        else if(direction ==3) // Going down
+        {
+            this.cameras.main.scrollY += cameraSpeed;
+        }
+        else if(direction == 4) // Going right
+        {
+            this.cameras.main.scrollX += cameraSpeed;
         }
 
         Phaser.Geom.Line.SetToAngle(line, line.x2, line.y2, normalAngle, 5);
