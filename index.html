@@ -32,8 +32,7 @@
 
     function preload ()
     {
-        this.load.image('grid', '/grid.png');
-        this.load.image('grid2', '/grid2.png');
+        this.load.image('grid', '/gridfloor.png');
 
     }
 
@@ -41,7 +40,7 @@
     {
 
 
-        this.add.tileSprite(1000, 1000, 2000, 2000, 'grid2');
+        this.add.tileSprite(1000, 1000, 2000, 2000, 'grid');
 
          line = new Phaser.Geom.Line(100, 100, 200, 100);
 
