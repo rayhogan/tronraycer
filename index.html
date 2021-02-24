@@ -6,10 +6,21 @@
 <body>
 
     <script>
+
+        var line;
+        var cusor;
+        var graphics;
+        var direction = 4;
+        var normalAngle = 0;
+        var started = false;
+        const height = 2000;
+        const width = 2000;
+        const cameraSpeed = 5;
+
     var config = {
         type: Phaser.AUTO,
-        width: 2000,
-        height: 2000,
+        width: width,
+        height: height,
         physics: {
             default: 'arcade',
             arcade: {
@@ -24,11 +35,7 @@
     };
 
     var game = new Phaser.Game(config);
-    var line;
-    var cusor;
-    var graphics;
-    var direction = 4;
-    var normalAngle = 0;
+
 
     function preload ()
     {
@@ -36,21 +43,21 @@
 
     }
 
-    function create ()
-    {
+    function create ()    {
 
 
-        this.add.tileSprite(1000, 1000, 2000, 2000, 'grid');
-
+         this.add.tileSprite(height/2, width/2, height, width, 'grid');
          line = new Phaser.Geom.Line(100, 100, 200, 100);
 
-         this.cameras.main.setBounds(0, 0, 2000, 2000);
+         this.cameras.main.setBounds(0, 0, height, width);
          this.cameras.main.setViewport(0, 0, 800, 600);
 
 
          graphics = this.add.graphics({ lineStyle: { width: 4, color: 0xFFA500 } });
+         graphics.strokeLineShape(line);
 
          cursors = this.input.keyboard.createCursorKeys();
+         console.log(line.x1, line.y1);
          
     }
 
@@ -91,27 +98,57 @@
                 
             }
         }
-        const cameraSpeed = 5;
-        if(direction == 1) // Going Up
+        
+
+       
+        if(line.x1 > 1 && line.x1 < width && line.y1 > 1 && line.y1 < height)
         {
-            this.cameras.main.scrollY -= cameraSpeed;
+            Phaser.Geom.Line.SetToAngle(line, line.x2, line.y2, normalAngle, 5);
+                if(direction == 1) // Going Up
+                {
+                    this.cameras.main.scrollY -= cameraSpeed;
+                }
+                else if(direction == 2) // Going Left
+                {
+                    this.cameras.main.scrollX -= cameraSpeed;
+                }
+                else if(direction ==3) // Going down
+                {
+                    this.cameras.main.scrollY += cameraSpeed;
+                }
+                else if(direction == 4) // Going right
+                {
+                    this.cameras.main.scrollX += cameraSpeed;
+                }       
+            
+            graphics.strokeLineShape(line);
         }
-        else if(direction == 2) // Going Left
+        else
         {
-            this.cameras.main.scrollX -= cameraSpeed;
-        }
-        else if(direction ==3) // Going down
-        {
-            this.cameras.main.scrollY += cameraSpeed;
-        }
-        else if(direction == 4) // Going right
-        {
-            this.cameras.main.scrollX += cameraSpeed;
+            if(!started)
+            {
+                started = true;
+                console.log(line.x1, line.y1);
+                console.log(line.x1, line.y1, started);
+                //console.log("Game Over!");
+                
+                // Game Over
+                var direction = 4;
+                var normalAngle = 0
+                graphics.destroy();
+                line = new Phaser.Geom.Line(100, 100, 200, 100);
+
+                this.cameras.main.x = 0;
+                this.cameras.main.y = 0;
+                graphics = this.add.graphics({ lineStyle: { width: 4, color: 0xFFA500 } });
+            }
+                
+            
         }
 
-        Phaser.Geom.Line.SetToAngle(line, line.x2, line.y2, normalAngle, 5);
-        graphics.strokeLineShape(line);
     }
+
+
 
     </script>
 
