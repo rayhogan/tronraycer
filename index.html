@@ -101,7 +101,7 @@
         
 
        
-        if(line.x1 > 1 && line.x1 < width && line.y1 > 1 && line.y1 < height)
+        if(line.x2 > 1 && line.x2 < width && line.y2 > 1 && line.y2 < height)
         {
             Phaser.Geom.Line.SetToAngle(line, line.x2, line.y2, normalAngle, 5);
                 if(direction == 1) // Going Up
@@ -127,9 +127,10 @@
         {
             if(!started)
             {
+                /*
                 started = true;
-                console.log(line.x1, line.y1);
-                console.log(line.x1, line.y1, started);
+                console.log(line.x2, line.y2);
+                console.log(line.x2, line.y2, started);
                 //console.log("Game Over!");
                 
                 // Game Over
@@ -141,6 +142,7 @@
                 this.cameras.main.x = 0;
                 this.cameras.main.y = 0;
                 graphics = this.add.graphics({ lineStyle: { width: 4, color: 0xFFA500 } });
+                */
             }
                 
             
